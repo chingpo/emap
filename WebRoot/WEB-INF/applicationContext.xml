@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://localhost:3306/popu</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value></value>
+		</property>
+	</bean>
+	<bean id="daosupport" class="com.PopuDao">
+		<property name="jtl">
+			<ref bean="jdbcTemplate" />
+		</property>
+	</bean>
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		id="viewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value>
+		</property>
+
+	</bean>
+	<bean id="paraMethodResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/map.do">mapDo</prop>
+				<prop key="/bar.do">barDo</prop>
+				<prop key="/rk.do">rkDo</prop>
+				<prop key="/rk2.do">rk2Do</prop>
+				<prop key="/emap.do">emapDo</prop>
+				<prop key="/test2.do">testDo</prop>
+				<prop key="/nbar.do">nbarDo</prop>
+				<prop key="/nrk.do">nrkDo</prop>
+			</props>
+		</property>
+	</bean>
+	<bean name="/*.do" class="com.PopuMutilAction">
+		<property name="methodNameResolver">
+			<ref bean="paraMethodResolver" />
+		</property>
+		<property name="dao">
+			<ref local="daosupport" />
+		</property>
+	</bean>
+
+</beans>

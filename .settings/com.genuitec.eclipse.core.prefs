@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+validator.Checked=WebRoot/zrender,WebRoot/asset/js,WebRoot/www,WebRoot/zrender-2.1.0,WebRoot/buju_files
+validator.Unchecked=
